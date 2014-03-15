@@ -10,8 +10,8 @@ count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
 
 # change those symbols to whatever you prefer
-symbols_ahead='↑·'
-symbols_behind='↓·'
+symbols_ahead='⬆∙'
+symbols_behind='⬇∙'
 symbols_prehash=':'
 
 gitsym=`git symbolic-ref HEAD`
