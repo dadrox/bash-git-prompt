@@ -24,25 +24,6 @@ function git_prompt_dir()
 
 function git_prompt_config()
 {
-  # Colors
-  ResetColor="\[\033[0m\]"            # Text reset
-
-  # Bold
-  local BoldGreen="\[\033[1;32m\]"    # Green
-  local BoldBlue="\[\033[1;34m\]"     # Blue
-
-  # High Intensty
-  local IntenseBlack="\[\033[0;90m\]" # Grey
-
-  # Bold High Intensty
-  local Magenta="\[\033[1;95m\]"      # Purple
-
-  # Regular Colors
-  local Yellow="\[\033[0;33m\]"
-  local White='\[\033[37m\]'
-  local Red="\[\033[0;31m\]"
-  local Blue="\[\033[0;34m\]"
-  local Cyan="\[\033[0;36m\]"
 
   # source the user's ~/.git-prompt-colors.sh file, or the one that should be
   # sitting in the same directory as this script
@@ -87,14 +68,14 @@ function git_prompt_config()
   local PathShort="\w"
 
   if [ "x${GIT_PROMPT_START}" == "x" ]; then
-    PROMPT_START="\[${Green}\]┏\[${Normal}\]$PS_ROOT"
-#    PROMPT_START="${Yellow}${PathShort}${ResetColor}"
+    PROMPT_START="\[${Green}\]┏\[${Reset}\]$PS_ROOT"
+#    PROMPT_START="${Yellow}${PathShort}${Reset}"
   else
     PROMPT_START="${GIT_PROMPT_START}"
   fi
 
   if [ "x${GIT_PROMPT_END}" == "x" ]; then
-    PROMPT_END=" \n\[${Green}\]┗▶\[${Normal}\] "
+    PROMPT_END=" \n\[${Green}\]┗▶\[${Reset}\] "
   else
     PROMPT_END="${GIT_PROMPT_END}"
   fi
@@ -107,7 +88,7 @@ function git_prompt_config()
   fi
 
   if [[ -n "${VIRTUAL_ENV}" ]]; then
-    EMPTY_PROMPT="(${Blue}$(basename "${VIRTUAL_ENV}")${ResetColor}) ${PROMPT_START}$($prompt_callback)${PROMPT_END}"
+    EMPTY_PROMPT="(${Blue}$(basename "${VIRTUAL_ENV}")${Reset}) ${PROMPT_START}$($prompt_callback)${PROMPT_END}"
   else
     EMPTY_PROMPT="${PROMPT_START}$($prompt_callback)${PROMPT_END}"
   fi
@@ -202,43 +183,43 @@ function updatePrompt() {
   local GIT_CLEAN=${GitStatus[7]}
 
   if [[ -n "${GitStatus}" ]]; then
-    local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${ResetColor}"
+    local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${Reset}"
 
     if [[ -n "${GIT_REMOTE}" ]]; then
-      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE}${Reset}"
     fi
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
     if [ "${GIT_STAGED}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_STAGED}${GIT_STAGED}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_STAGED}${GIT_STAGED}${Reset}"
     fi
 
     if [ "${GIT_CONFLICTS}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_CONFLICTS}${GIT_CONFLICTS}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_CONFLICTS}${GIT_CONFLICTS}${Reset}"
     fi
 
     if [ "${GIT_CHANGED}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_CHANGED}${GIT_CHANGED}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_CHANGED}${GIT_CHANGED}${Reset}"
     fi
 
     if [ "${GIT_UNTRACKED}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_UNTRACKED}${GIT_UNTRACKED}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_UNTRACKED}${GIT_UNTRACKED}${Reset}"
     fi
 
     if [ "${GIT_STASHED}" -ne "0" ]; then
-      STATUS="${STATUS}${GIT_PROMPT_STASHED}${GIT_STASHED}${ResetColor}"
+      STATUS="${STATUS}${GIT_PROMPT_STASHED}${GIT_STASHED}${Reset}"
     fi
 
     if [ "${GIT_CLEAN}" -eq "1" ]; then
       STATUS="${STATUS}${GIT_PROMPT_CLEAN}"
     fi
 
-    STATUS="${STATUS}${ResetColor}${GIT_PROMPT_SUFFIX}"
+    STATUS="${STATUS}${Reset}${GIT_PROMPT_SUFFIX}"
 
 
     PS1="${PROMPT_START}$($prompt_callback)${STATUS}${PROMPT_END}"
     if [[ -n "${VIRTUAL_ENV}" ]]; then
-      PS1="(${Blue}$(basename ${VIRTUAL_ENV})${ResetColor}) ${PS1}"
+      PS1="(${Blue}$(basename ${VIRTUAL_ENV})${Reset}) ${PS1}"
     fi
 
   else
