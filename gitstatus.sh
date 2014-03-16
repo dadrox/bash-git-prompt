@@ -49,6 +49,8 @@ if [[ -z "$branch" ]]; then
   else
     branch=":`git rev-parse --short HEAD`"
   fi
+  num_ahead=0
+  num_behind=0
 else
   remote_name=`git config branch.${branch}.remote`
   
