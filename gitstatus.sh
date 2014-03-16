@@ -9,9 +9,11 @@
 count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
 
+source git-prompt-colors.sh
+
 # change those symbols to whatever you prefer
-symbols_ahead='⬆∙'
-symbols_behind='⬇∙'
+symbols_ahead=GIT_PROMPT_AHEAD #'⬆∙'
+symbols_behind=GIT_PROMPT_BEHIND #'⬇∙'
 symbols_prehash=':'
 
 gitsym=`git symbolic-ref HEAD`
@@ -76,10 +78,10 @@ else
   num_ahead=`count_lines "$revgit" "^>"`
   num_behind=$(( num_revs - num_ahead ))
   if (( num_behind > 0 )) ; then
-    remote="${remote}${symbols_behind}${num_behind}"
+    remote="${remote}${symbols_behind}${num_behind}$Reset"
   fi
   if (( num_ahead > 0 )) ; then
-    remote="${remote}${symbols_ahead}${num_ahead}"
+    remote="${remote}${symbols_ahead}${num_ahead}$Reset"
   fi
 fi
 if [[ -z "$remote" ]] ; then

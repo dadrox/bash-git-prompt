@@ -13,6 +13,9 @@
 
 GIT_PROMPT_LEADING_SPACE=0
 
+  GIT_PROMPT_AHEAD="$Green⬆∙"
+  GIT_PROMPT_BEHIND="$Red⬇∙"
+
   # These are the color definitions used by gitprompt.sh
   GIT_PROMPT_PREFIX="⟨"                 # start of the git info string
   GIT_PROMPT_SUFFIX="⟩"                 # the end of the git info string

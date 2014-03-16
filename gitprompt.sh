@@ -60,25 +60,25 @@ function git_prompt_config()
     GIT_PROMPT_CLEAN="$Bold$Green✔"
   fi
 
-  # Various variables you might want for your PS1 prompt instead
+  # Various variables you might want for your Git_Prompt prompt instead
   local Time12a="\$(date +%H:%M)"
   local Time24a="\$(date +%H%M)"
   # local Time12a="(\$(date +%H:%M:%S))"
   # local Time12a="(\@))"
   local PathShort="\w"
 
-  if [ "x${GIT_PROMPT_START}" == "x" ]; then
-    PROMPT_START="\[${Green}\]┏\[${Reset}\]$PS_ROOT"
-#    PROMPT_START="${Yellow}${PathShort}${Reset}"
-  else
-    PROMPT_START="${GIT_PROMPT_START}"
-  fi
-
-  if [ "x${GIT_PROMPT_END}" == "x" ]; then
-    PROMPT_END=" \n\[${Green}\]┗▶\[${Reset}\] "
-  else
-    PROMPT_END="${GIT_PROMPT_END}"
-  fi
+#  if [ "x${GIT_PROMPT_START}" == "x" ]; then
+#    PROMPT_START="\[${Green}\]┏\[${Reset}\]$PS_ROOT"
+##    PROMPT_START="${Yellow}${PathShort}${Reset}"
+#  else
+#    PROMPT_START="${GIT_PROMPT_START}"
+#  fi
+#
+#  if [ "x${GIT_PROMPT_END}" == "x" ]; then
+#    PROMPT_END=" \n\[${Green}\]┗▶\[${Reset}\] "
+#  else
+#    PROMPT_END="${GIT_PROMPT_END}"
+#  fi
 
   # set GIT_PROMPT_LEADING_SPACE to 0 if you want to have no leading space in front of the GIT prompt
   if [ "x${GIT_PROMPT_LEADING_SPACE}" == "x0" ]; then
@@ -119,7 +119,7 @@ function setGitPrompt() {
 
   local repo=`git rev-parse --show-toplevel 2> /dev/null`
   if [[ ! -e "${repo}" ]]; then
-    PS1="${EMPTY_PROMPT}"
+    Git_Prompt="${EMPTY_PROMPT}"
     return
   fi
 
@@ -162,8 +162,6 @@ function updatePrompt() {
   local EMPTY_PROMPT
   local GIT_PROMPT_FETCH_TIMEOUT
   local __GIT_STATUS_CMD
-
-  local Blue="\[\033[0;34m\]"
 
   git_prompt_config
 
@@ -217,14 +215,16 @@ function updatePrompt() {
     STATUS="${STATUS}${Reset}${GIT_PROMPT_SUFFIX}"
 
 
-    PS1="${PROMPT_START}$($prompt_callback)${STATUS}${PROMPT_END}"
+    Git_Prompt="${PROMPT_START}$($prompt_callback)${STATUS}${PROMPT_END}"
     if [[ -n "${VIRTUAL_ENV}" ]]; then
-      PS1="(${Blue}$(basename ${VIRTUAL_ENV})${Reset}) ${PS1}"
+      Git_Prompt="(${Blue}$(basename ${VIRTUAL_ENV})${Reset}) ${Git_Prompt}"
     fi
 
   else
-    PS1="${EMPTY_PROMPT}"
+    Git_Prompt="${EMPTY_PROMPT}"
   fi
+
+export Git_Prompt
 }
 
 function prompt_callback_default {
@@ -238,7 +238,7 @@ else
 fi
 
 if [ -z "$OLD_GITPROMPT" ]; then
-  OLD_GITPROMPT=$PS1
+  OLD_GITPROMPT=$Git_Prompt
 fi
 
 if [ -z "$PROMPT_COMMAND" ]; then
