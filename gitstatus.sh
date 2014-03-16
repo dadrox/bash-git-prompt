@@ -9,19 +9,6 @@
 count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
 
-if [ -z "$GIT_PROMPT_AHEAD" ]; then
-  GIT_PROMPT_AHEAD="$Green⬆∙"
-fi
-
-if [ -z "$GIT_PROMPT_BEHIND" ]; then
-  GIT_PROMPT_BEHIND="$Red⬇∙"
-fi
-
-# change those symbols to whatever you prefer
-symbols_ahead=$GIT_PROMPT_AHEAD #'⬆∙'
-symbols_behind=$GIT_PROMPT_BEHIND #'⬇∙'
-symbols_prehash=':'
-
 gitsym=`git symbolic-ref HEAD`
 
 # if "fatal: Not a git repo .., then exit
@@ -60,7 +47,7 @@ if [[ -z "$branch" ]]; then
   if [[ -n "$tag" ]]; then
     branch="$tag"
   else
-    branch="${symbols_prehash}`git rev-parse --short HEAD`"
+    branch=":`git rev-parse --short HEAD`"
   fi
 else
   remote_name=`git config branch.${branch}.remote`
@@ -83,15 +70,6 @@ else
   num_revs=`all_lines "$revgit"`
   num_ahead=`count_lines "$revgit" "^>"`
   num_behind=$(( num_revs - num_ahead ))
-  if (( num_behind > 0 )) ; then
-    remote="${remote}${symbols_behind}${num_behind}$Reset"
-  fi
-  if (( num_ahead > 0 )) ; then
-    remote="${remote}${symbols_ahead}${num_ahead}$Reset"
-  fi
-fi
-if [[ -z "$remote" ]] ; then
-  remote='.'
 fi
 
 for w in "$branch" $num_behind $num_ahead $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean ; do
