@@ -9,11 +9,17 @@
 count_lines() { echo "$1" | egrep -c "^$2" ; }
 all_lines() { echo "$1" | grep -v "^$" | wc -l ; }
 
-source git-prompt-colors.sh
+if [ -z "$GIT_PROMPT_AHEAD" ]; then
+  GIT_PROMPT_AHEAD="$Green⬆∙"
+fi
+
+if [ -z "$GIT_PROMPT_BEHIND" ]; then
+  GIT_PROMPT_BEHIND="$Red⬇∙"
+fi
 
 # change those symbols to whatever you prefer
-symbols_ahead=GIT_PROMPT_AHEAD #'⬆∙'
-symbols_behind=GIT_PROMPT_BEHIND #'⬇∙'
+symbols_ahead=$GIT_PROMPT_AHEAD #'⬆∙'
+symbols_behind=$GIT_PROMPT_BEHIND #'⬇∙'
 symbols_prehash=':'
 
 gitsym=`git symbolic-ref HEAD`
@@ -88,7 +94,7 @@ if [[ -z "$remote" ]] ; then
   remote='.'
 fi
 
-for w in "$branch" "$remote" $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean ; do
+for w in "$branch" $num_behind $num_ahead $num_staged $num_conflicts $num_changed $num_untracked $num_stashed $clean ; do
   echo "$w"
 done
 

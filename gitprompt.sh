@@ -60,26 +60,6 @@ function git_prompt_config()
     GIT_PROMPT_CLEAN="$Bold$Green✔"
   fi
 
-  # Various variables you might want for your Git_Prompt prompt instead
-  local Time12a="\$(date +%H:%M)"
-  local Time24a="\$(date +%H%M)"
-  # local Time12a="(\$(date +%H:%M:%S))"
-  # local Time12a="(\@))"
-  local PathShort="\w"
-
-#  if [ "x${GIT_PROMPT_START}" == "x" ]; then
-#    PROMPT_START="\[${Green}\]┏\[${Reset}\]$PS_ROOT"
-##    PROMPT_START="${Yellow}${PathShort}${Reset}"
-#  else
-#    PROMPT_START="${GIT_PROMPT_START}"
-#  fi
-#
-#  if [ "x${GIT_PROMPT_END}" == "x" ]; then
-#    PROMPT_END=" \n\[${Green}\]┗▶\[${Reset}\] "
-#  else
-#    PROMPT_END="${GIT_PROMPT_END}"
-#  fi
-
   # set GIT_PROMPT_LEADING_SPACE to 0 if you want to have no leading space in front of the GIT prompt
   if [ "x${GIT_PROMPT_LEADING_SPACE}" == "x0" ]; then
     PROMPT_LEADING_SPACE=""
@@ -169,25 +149,35 @@ function updatePrompt() {
   GitStatus=($("${__GIT_STATUS_CMD}" 2>/dev/null))
 
   local GIT_BRANCH=${GitStatus[0]}
-  local GIT_REMOTE=${GitStatus[1]}
-  if [[ "." == "$GIT_REMOTE" ]]; then
-    unset GIT_REMOTE
-  fi
-  local GIT_STAGED=${GitStatus[2]}
-  local GIT_CONFLICTS=${GitStatus[3]}
-  local GIT_CHANGED=${GitStatus[4]}
-  local GIT_UNTRACKED=${GitStatus[5]}
-  local GIT_STASHED=${GitStatus[6]}
-  local GIT_CLEAN=${GitStatus[7]}
+  local GIT_BEHIND=${GitStatus[1]}
+  local GIT_AHEAD=${GitStatus[2]}
+#  local GIT_REMOTE=${GitStatus[1]}
+#  if [[ "." == "$GIT_REMOTE" ]]; then
+#    unset GIT_REMOTE
+#  fi
+  local GIT_STAGED=${GitStatus[3]}
+  local GIT_CONFLICTS=${GitStatus[4]}
+  local GIT_CHANGED=${GitStatus[5]}
+  local GIT_UNTRACKED=${GitStatus[6]}
+  local GIT_STASHED=${GitStatus[7]}
+  local GIT_CLEAN=${GitStatus[8]}
 
   if [[ -n "${GitStatus}" ]]; then
     local STATUS="${PROMPT_LEADING_SPACE}${GIT_PROMPT_PREFIX}${GIT_PROMPT_BRANCH}${GIT_BRANCH}${Reset}"
 
-    if [[ -n "${GIT_REMOTE}" ]]; then
-      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE}${Reset}"
-    fi
+#    if [[ -n "${GIT_REMOTE}" ]; then
+#      STATUS="${STATUS}${GIT_PROMPT_REMOTE}${GIT_REMOTE}${Reset}"
+#    fi
 
     STATUS="${STATUS}${GIT_PROMPT_SEPARATOR}"
+    if [ "${GIT_BEHIND}" -ne 0 ]; then
+      STATUS="${STATUS}${GIT_PROMPT_BEHIND}${GIT_BEHIND}${Reset}"
+    fi
+
+    if [ "${GIT_AHEAD}" -ne 0 ]; then
+      STATUS="${STATUS}${GIT_PROMPT_AHEAD}${GIT_AHEAD}${Reset}"
+    fi
+
     if [ "${GIT_STAGED}" -ne "0" ]; then
       STATUS="${STATUS}${GIT_PROMPT_STAGED}${GIT_STAGED}${Reset}"
     fi

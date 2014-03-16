@@ -35,18 +35,18 @@ git_prompt_examples() {
   cat <<EOF | sed 's/\\\[\\033//g' | sed 's/\\\]//g'
 These are examples of the git prompt:
 
-  [${GIT_PROMPT_BRANCH}master${Reset}${GIT_PROMPT_REMOTE}↑·3${Reset}|${GIT_PROMPT_CHANGED}1${Reset}]  - on branch "master", ahead of remote by 3 commits, 1
+  [${GIT_PROMPT_BRANCH}master${Reset}${GIT_PROMPT_REMOTE}${GIT_PROMPT_AHEAD}3${Reset}|${GIT_PROMPT_CHANGED}1${Reset}]  - on branch "master", ahead of remote by 3 commits, 1
                     file changed but not staged
 
   [${GIT_PROMPT_BRANCH}status${Reset}|${GIT_PROMPT_STAGED}2${Reset}]     - on branch "status", 2 files staged
 
-  [${GIT_PROMPT_BRANCH}master${Reset}|${GIT_PROMPT_CHANGED}7${GIT_PROMPT_UNTRACKED}${Reset}]    - on branch "master", 7 files changed, some files untracked
+  [${GIT_PROMPT_BRANCH}master${Reset}|${GIT_PROMPT_CHANGED}7${GIT_PROMPT_UNTRACKED}2${Reset}]    - on branch "master", 7 files changed, some files untracked
 
   [${GIT_PROMPT_BRANCH}master${Reset}|${GIT_PROMPT_CONFLICTS}2${GIT_PROMPT_CHANGED}3${Reset}]   - on branch "master", 2 conflicts, 3 files changed
 
   [${GIT_PROMPT_BRANCH}master${Reset}|${GIT_PROMPT_STASHED}2${Reset}]     - on branch "master", 2 stash entries
 
-  [${GIT_PROMPT_BRANCH}experimental${Reset}${GIT_PROMPT_REMOTE}↓·2↑·3${Reset}|${GIT_PROMPT_CLEAN}${Reset}]
+  [${GIT_PROMPT_BRANCH}experimental${Reset}${GIT_PROMPT_REMOTE}${GIT_PROMPT_BEHIND}2${GIT_PROMPT_AHEAD}3${Reset}|${GIT_PROMPT_CLEAN}${Reset}]
                   -  on branch "experimental"; your branch has diverged
                      by 3 commits, remote by 2 commits; the repository is
                      otherwise clean
